@@ -11,20 +11,8 @@
       <!-- ── Left: Content ── -->
       <div>
 
-        <!-- Available pill -->
-        <div class="reveal inline-flex items-center gap-2.5 px-4 py-2 rounded-full border
-                    border-emerald-500/25 bg-emerald-500/8 text-emerald-400 text-sm font-medium mb-8">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></span>
-          {{ tr.t('hero.available') }}
-        </div>
-
-        <!-- Greeting -->
-        <p class="reveal delay-1 font-mono text-xs font-semibold uppercase tracking-[0.25em] text-primary-400 mb-4">
-          {{ tr.t('hero.greeting') }}
-        </p>
-
         <!-- Name -->
-        <h1 class="reveal delay-2 font-display font-extrabold leading-[0.88] tracking-tight mb-6">
+        <h1 class="reveal delay-2 font-display font-extrabold leading-[0.88] tracking-tight mb-6 pt-2">
           <span class="block text-5xl md:text-6xl lg:text-7xl text-slate-900 dark:text-white">Moncif</span>
           <span class="block text-5xl md:text-6xl lg:text-7xl gradient-text-hero">LAARAJ</span>
         </h1>
@@ -33,7 +21,7 @@
         <div class="reveal delay-3 inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl
                     bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 mb-5">
           <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-primary-500 to-accent-500"></span>
-          <span class="text-slate-200 font-semibold text-base">{{ displayedTitle() }}<span class="cursor text-primary-400">|</span></span>
+          <span class="text-slate-800 dark:text-slate-200 font-semibold text-base">{{ displayedTitle() }}<span class="cursor text-primary-500">|</span></span>
         </div>
 
         <!-- Subtitle -->
@@ -58,6 +46,13 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </button>
+          <a href="/cv.pdf" download="CV-Moncif-LAARAJ.pdf" class="btn-ghost-v2">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/>
+            </svg>
+            {{ tr.t('nav.download') }}
+          </a>
         </div>
 
         <!-- Stats -->

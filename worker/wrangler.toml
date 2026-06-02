@@ -1,0 +1,7 @@
+name = "moncif-chat"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Active Workers AI (modèle Llama gratuit)
+[ai]
+binding = "AI"

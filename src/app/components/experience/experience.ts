@@ -72,6 +72,11 @@ export class ExperienceComponent implements OnInit {
     return `dot-${level}`;
   }
 
+  /** Logos à fond foncé (texte blanc) : remplissent la pastille au lieu d'un cadre blanc. */
+  isDarkLogo(exp: Experience): boolean {
+    return exp.logo === 'acensi';
+  }
+
   getLevelClass(level: string): string {
     return `level-${level}`;
   }

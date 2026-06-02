@@ -65,6 +65,7 @@ export interface Project {
   stack: string[];
   type: string;
   featured: boolean;
+  image?: string;
   liveUrl?: string;
 }
 
@@ -80,6 +81,9 @@ export interface Certification {
   name: string;
   issuer: string;
   status: CertStatus;
+  code?: string;
+  year?: string;
+  badge?: string;
 }
 
 export interface PortfolioContent {

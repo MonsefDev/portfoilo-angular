@@ -169,7 +169,6 @@
         @for (step of careerStepsDesc(); track step.year; let i = $index) {
           <div class="journey-node relative mb-3"
                [class.visible]="journeyVisible()"
-               [style.marginLeft.px]="i * 14"
                [style.transitionDelay]="(i * 120) + 'ms'">
 
             <!-- Point sur le connecteur -->

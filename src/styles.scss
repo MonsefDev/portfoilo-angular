@@ -32,9 +32,11 @@
     &:hover { box-shadow: 0 0 40px rgba(79,70,229,0.6), 0 0 60px rgba(6,182,212,0.2); }
   }
   .btn-ghost-v2 {
-    @apply inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-semibold text-sm
-           text-slate-300 border border-white/10 bg-white/5
-           hover:border-primary-500/50 hover:text-white hover:bg-white/10 transition-all duration-300;
+    @apply inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-semibold text-sm transition-all duration-300;
+    @apply text-slate-700 border border-slate-300 bg-white/60
+           hover:border-primary-500/50 hover:text-primary-600 hover:bg-white;
+    @apply dark:text-slate-300 dark:border-white/10 dark:bg-white/5
+           dark:hover:text-white dark:hover:bg-white/10;
   }
 
   /* ── Glass card ── */
@@ -301,6 +303,68 @@
          dark:bg-primary-500/10 dark:text-primary-300;
 }
 
+/* ─── Chatbot IA ─── */
+.chat-bubble-bot {
+  @apply rounded-2xl rounded-tl-sm px-4 py-2.5 leading-relaxed;
+  @apply bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-slate-200;
+  animation: bubbleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.chat-bubble-user {
+  @apply rounded-2xl rounded-tr-sm px-4 py-2.5 leading-relaxed text-white;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  animation: bubbleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.chat-bubble-bot strong, .chat-bubble-user strong { font-weight: 700; }
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.typing-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  @apply bg-slate-400 dark:bg-slate-500;
+  animation: typingBounce 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30%           { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ─── Certifications (badges officiels) ─── */
+.cert-badge-glow {
+  background: radial-gradient(circle, rgba(99,102,241,0.25) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.cert-card:hover .cert-badge-glow {
+  opacity: 1;
+  transform: scale(1.3);
+}
+.cert-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.07) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.7s ease;
+  pointer-events: none;
+}
+.cert-card:hover::after { transform: translateX(100%); }
+
+/* Logos à fond foncé : remplissent la pastille (pas de cadre blanc) */
+.logo-fill {
+  background: transparent !important;
+  padding: 0 !important;
+  border-color: rgba(255,255,255,0.1);
+}
+.logo-fill img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
 /* ─── Logo entreprise (pastille blanche, grayscale → couleur) ─── */
 .logo-chip {
   display: inline-flex; align-items: center; justify-content: center;
@@ -399,6 +463,18 @@
 .timeline-line {
   @apply absolute left-6 top-0 bottom-0 w-px;
   background: linear-gradient(to bottom, #4f46e5, #06b6d4 60%, transparent);
+}
+
+/* Entrée des cartes projets (autonome, rejoue au changement de filtre) */
+.proj-card-in {
+  animation: projCardIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes projCardIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .proj-card-in { animation: none !important; }
 }
 
 /* ─── Project cards ─── */

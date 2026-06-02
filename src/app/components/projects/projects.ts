@@ -4,7 +4,7 @@ import { TranslationService } from '../../services/translation.service';
 import { PortfolioService } from '../../services/portfolio.service';
 import { Project } from '../../data/portfolio.model';
 
-type Filter = 'all' | 'fintech' | 'transport' | 'automotive' | 'erp';
+type Filter = 'all' | 'fintech' | 'transport' | 'automotive' | 'web';
 
 @Component({
   selector: 'app-projects',
@@ -21,10 +21,10 @@ export class ProjectsComponent {
 
   readonly filters: { key: Filter; labelFR: string; labelEN: string }[] = [
     { key: 'all',        labelFR: 'Tous',       labelEN: 'All' },
-    { key: 'fintech',    labelFR: 'Fintech',     labelEN: 'Fintech' },
+    { key: 'fintech',    labelFR: 'Banque',     labelEN: 'Banking' },
     { key: 'transport',  labelFR: 'Transport',   labelEN: 'Transport' },
     { key: 'automotive', labelFR: 'Automobile',  labelEN: 'Automotive' },
-    { key: 'erp',        labelFR: 'ERP',         labelEN: 'ERP' },
+    { key: 'web',        labelFR: 'Web',         labelEN: 'Web' },
   ];
 
   readonly filteredProjects = computed(() => {
@@ -64,6 +64,12 @@ export class ProjectsComponent {
 
   getTypeIcon(type: string): string {
     return { fintech: '🏦', transport: '🚄', automotive: '🚗', erp: '🏢', web: '🌐' }[type] ?? '💼';
+  }
+
+  getTypeLabel(type: string): string {
+    const fr: Record<string, string> = { fintech: 'Banque', transport: 'Transport', automotive: 'Automobile', web: 'Web', erp: 'ERP' };
+    const en: Record<string, string> = { fintech: 'Banking', transport: 'Transport', automotive: 'Automotive', web: 'Web', erp: 'ERP' };
+    return (this.tr.isEN() ? en : fr)[type] ?? type;
   }
 
   getTypeBadgeClass(type: string): string {

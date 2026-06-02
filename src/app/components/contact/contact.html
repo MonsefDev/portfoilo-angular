@@ -11,19 +11,19 @@
 
     <div class="grid lg:grid-cols-5 gap-10 max-w-6xl mx-auto">
 
-      <!-- Info -->
+      <!-- Colonne infos -->
       <div class="lg:col-span-2 space-y-4 reveal reveal-left">
         <div class="glass-card p-5 flex items-center gap-4">
           <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white flex-shrink-0">📅</div>
           <div>
-            <p class="font-semibold text-white text-sm">{{ tr.t('contact.availability') }}</p>
-            <p class="text-xs text-emerald-400 font-mono mt-0.5">Open to opportunities</p>
+            <p class="font-semibold text-slate-900 dark:text-white text-sm">{{ tr.t('contact.availability') }}</p>
+            <p class="text-xs text-emerald-500 font-mono mt-0.5">Open to opportunities</p>
           </div>
         </div>
         <div class="glass-card p-5 flex items-center gap-4">
           <div class="w-11 h-11 rounded-xl bg-cyan-500/15 border border-cyan-500/20 flex items-center justify-center text-lg flex-shrink-0">📍</div>
           <div>
-            <p class="font-semibold text-white text-sm">{{ tr.t('contact.location') }}</p>
+            <p class="font-semibold text-slate-900 dark:text-white text-sm">{{ tr.t('contact.location') }}</p>
             <p class="text-xs text-slate-500 mt-0.5">{{ tr.t('contact.open_to') }}</p>
           </div>
         </div>
@@ -31,7 +31,7 @@
           <p class="text-xs font-mono font-semibold uppercase tracking-wider text-slate-500 mb-4">Links</p>
           <div class="space-y-3">
             <a href="mailto:laarajmoncif@gmail.com"
-               class="flex items-center gap-3 text-sm text-slate-400 hover:text-primary-400 transition-colors">
+               class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400 hover:text-primary-500 transition-colors">
               <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -39,7 +39,7 @@
               laarajmoncif&#64;gmail.com
             </a>
             <a href="https://github.com/monsefdev" target="_blank" rel="noopener"
-               class="flex items-center gap-3 text-sm text-slate-400 hover:text-primary-400 transition-colors">
+               class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400 hover:text-primary-500 transition-colors">
               <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
               </svg>
@@ -49,64 +49,104 @@
         </div>
       </div>
 
-      <!-- Form -->
-      <form class="lg:col-span-3 reveal reveal-right glass-card p-8 space-y-5"
-            (ngSubmit)="submit()" #contactForm="ngForm">
+      <!-- ═══ Chatbot IA ═══ -->
+      <div class="lg:col-span-3 reveal reveal-right glass-card flex flex-col overflow-hidden"
+           style="height:540px">
 
-        <div class="grid sm:grid-cols-2 gap-5">
-          <div>
-            <label class="block text-sm font-medium text-slate-300 mb-1.5">{{ tr.t('contact.name_label') }}</label>
-            <input type="text" name="name" required [(ngModel)]="name"
-                   [placeholder]="tr.t('contact.name_placeholder')"
-                   class="w-full px-4 py-3 rounded-xl border bg-white/4 text-white placeholder:text-slate-600
-                          border-white/8 outline-none text-sm transition-all duration-200
-                          focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/15"/>
+        <!-- En-tête chatbot -->
+        <div class="flex items-center gap-3 p-4 border-b border-slate-100 dark:border-white/8
+                    bg-gradient-to-r from-primary-500/8 to-transparent shrink-0">
+          <div class="relative w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white shrink-0">
+            🤖
+            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-white dark:border-dark-700"></span>
           </div>
-          <div>
-            <label class="block text-sm font-medium text-slate-300 mb-1.5">{{ tr.t('contact.email_label') }}</label>
-            <input type="email" name="email" required [(ngModel)]="email"
-                   [placeholder]="tr.t('contact.email_placeholder')"
-                   class="w-full px-4 py-3 rounded-xl border bg-white/4 text-white placeholder:text-slate-600
-                          border-white/8 outline-none text-sm transition-all duration-200
-                          focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/15"/>
+          <div class="flex-1">
+            <p class="font-display font-bold text-slate-900 dark:text-white text-sm leading-tight">
+              {{ tr.isEN() ? 'Moncif\'s AI Assistant' : 'Assistant IA de Moncif' }}
+            </p>
+            <p class="text-xs text-emerald-500 font-mono">● {{ tr.isEN() ? 'online' : 'en ligne' }}</p>
           </div>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-slate-300 mb-1.5">{{ tr.t('contact.subject_label') }}</label>
-          <input type="text" name="subject" [(ngModel)]="subject"
-                 [placeholder]="tr.t('contact.subject_placeholder')"
-                 class="w-full px-4 py-3 rounded-xl border bg-white/4 text-white placeholder:text-slate-600
-                        border-white/8 outline-none text-sm transition-all duration-200
-                        focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/15"/>
-        </div>
+        <!-- Fil de messages -->
+        <div #scrollBox class="flex-1 overflow-y-auto p-4 space-y-4">
 
-        <div>
-          <label class="block text-sm font-medium text-slate-300 mb-1.5">{{ tr.t('contact.message_label') }}</label>
-          <textarea rows="5" name="message" required [(ngModel)]="message"
-                    [placeholder]="tr.t('contact.message_placeholder')"
-                    class="w-full px-4 py-3 rounded-xl border bg-white/4 text-white placeholder:text-slate-600
-                           border-white/8 outline-none text-sm resize-none transition-all duration-200
-                           focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/15">
-          </textarea>
-        </div>
+          <!-- Message d'accueil -->
+          <div class="flex gap-2.5">
+            <div class="w-7 h-7 rounded-lg gradient-bg flex items-center justify-center text-sm shrink-0">🤖</div>
+            <div class="chat-bubble-bot max-w-[80%] text-sm">
+              {{ tr.isEN()
+                ? 'Hi 👋 I\'m Moncif\'s virtual assistant. Ask me anything about his Angular experience, missions, projects or skills!'
+                : 'Bonjour 👋 Je suis l\'assistant virtuel de Moncif. Pose-moi tes questions sur son expérience Angular, ses missions, ses projets ou ses compétences !' }}
+            </div>
+          </div>
 
-        <button type="submit" [disabled]="!contactForm.valid"
-                class="w-full btn-gradient justify-center py-4 text-sm
-                       disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100">
-          @if (sent()) {
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            Envoyé !
-          } @else {
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-            </svg>
-            {{ tr.t('contact.send') }}
+          <!-- Messages -->
+          @for (msg of chat.messages(); track $index) {
+            @if (msg.role === 'user') {
+              <div class="flex justify-end">
+                <div class="chat-bubble-user max-w-[80%] text-sm">{{ msg.content }}</div>
+              </div>
+            } @else {
+              <div class="flex gap-2.5">
+                <div class="w-7 h-7 rounded-lg gradient-bg flex items-center justify-center text-sm shrink-0">🤖</div>
+                <div class="chat-bubble-bot max-w-[80%] text-sm" [innerHTML]="format(msg.content)"></div>
+              </div>
+            }
           }
-        </button>
-      </form>
+
+          <!-- Indicateur de saisie -->
+          @if (chat.loading()) {
+            <div class="flex gap-2.5">
+              <div class="w-7 h-7 rounded-lg gradient-bg flex items-center justify-center text-sm shrink-0">🤖</div>
+              <div class="chat-bubble-bot flex items-center gap-1.5 py-3">
+                <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+              </div>
+            </div>
+          }
+
+          <!-- Suggestions (seulement au début) -->
+          @if (chat.messages().length === 0 && !chat.loading()) {
+            <div class="flex flex-wrap gap-2 pt-1">
+              @for (s of chat.suggestions; track s) {
+                <button (click)="ask(s)"
+                        class="text-xs px-3 py-1.5 rounded-full border border-primary-500/25 bg-primary-500/8
+                               text-primary-600 dark:text-primary-300 hover:bg-primary-500/15 transition-colors text-left">
+                  {{ s }}
+                </button>
+              }
+            </div>
+          }
+
+        </div>
+
+        <!-- Zone de saisie -->
+        <div class="p-3 border-t border-slate-100 dark:border-white/8 shrink-0">
+          <div class="flex items-end gap-2">
+            <textarea
+              [(ngModel)]="draft"
+              (keydown.enter)="onEnter($event)"
+              rows="1"
+              [placeholder]="tr.isEN() ? 'Ask a question…' : 'Pose une question…'"
+              class="flex-1 resize-none px-4 py-2.5 rounded-xl border text-sm outline-none max-h-24
+                     bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white placeholder:text-slate-400
+                     border-slate-200 dark:border-white/10 transition-all duration-200
+                     focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/15"></textarea>
+            <button (click)="send()" [disabled]="!draft.trim() || chat.loading()"
+                    class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white shrink-0
+                           transition-all duration-200 hover:scale-105 disabled:opacity-40 disabled:hover:scale-100">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+              </svg>
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-400 mt-2 text-center">
+            {{ chat.usesAI
+              ? (tr.isEN() ? 'Powered by AI · answers about Moncif\'s profile' : 'Propulsé par IA · réponses sur le profil de Moncif')
+              : (tr.isEN() ? 'Virtual assistant · for anything else: laarajmoncif@gmail.com' : 'Assistant virtuel · pour le reste : laarajmoncif@gmail.com') }}
+          </p>
+        </div>
+      </div>
 
     </div>
   </div>
