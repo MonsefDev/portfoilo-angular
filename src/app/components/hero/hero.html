@@ -1,0 +1,160 @@
+<section id="hero" class="relative min-h-screen flex items-center overflow-hidden bg-slate-50 dark:bg-dark-900">
+
+  <!-- Ambient orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="section-container w-full pt-24 pb-12 relative z-10">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+      <!-- ── Left: Content ── -->
+      <div>
+
+        <!-- Available pill -->
+        <div class="reveal inline-flex items-center gap-2.5 px-4 py-2 rounded-full border
+                    border-emerald-500/25 bg-emerald-500/8 text-emerald-400 text-sm font-medium mb-8">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></span>
+          {{ tr.t('hero.available') }}
+        </div>
+
+        <!-- Greeting -->
+        <p class="reveal delay-1 font-mono text-xs font-semibold uppercase tracking-[0.25em] text-primary-400 mb-4">
+          {{ tr.t('hero.greeting') }}
+        </p>
+
+        <!-- Name -->
+        <h1 class="reveal delay-2 font-display font-extrabold leading-[0.88] tracking-tight mb-6">
+          <span class="block text-5xl md:text-6xl lg:text-7xl text-slate-900 dark:text-white">Moncif</span>
+          <span class="block text-5xl md:text-6xl lg:text-7xl gradient-text-hero">LAARAJ</span>
+        </h1>
+
+        <!-- Role chip -->
+        <div class="reveal delay-3 inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl
+                    bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 mb-5">
+          <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-primary-500 to-accent-500"></span>
+          <span class="text-slate-200 font-semibold text-base">{{ displayedTitle() }}<span class="cursor text-primary-400">|</span></span>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="reveal delay-4 text-slate-400 text-base font-mono mb-8">
+          {{ tr.t('hero.subtitle') }}
+          <span class="mx-2 text-white/20">·</span>
+          <span class="text-primary-400">{{ tr.t('hero.location') }}</span>
+        </p>
+
+        <!-- CTAs -->
+        <div class="reveal delay-5 flex flex-wrap gap-4 mb-10">
+          <button (click)="scrollTo('contact')" class="btn-gradient">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            {{ tr.t('hero.cta_contact') }}
+          </button>
+          <button (click)="scrollTo('projects')" class="btn-ghost-v2">
+            {{ tr.t('hero.cta_projects') }}
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="reveal delay-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          @for (stat of stats; track stat.valueKey) {
+            <div class="glass-card p-4 text-center">
+              <div class="text-2xl font-extrabold font-display gradient-text mb-1">{{ tr.t(stat.valueKey) }}</div>
+              <div class="text-xs text-slate-500 font-medium leading-tight">{{ tr.t(stat.labelKey) }}</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- ── Right: Glass photo card ── -->
+      <div class="reveal reveal-right delay-2 relative flex justify-center lg:justify-end">
+
+        <!-- Photo glass card -->
+        <div class="relative" style="width:340px">
+
+          <!-- Outer glow ring -->
+          <div class="absolute inset-0 rounded-3xl opacity-40"
+               style="background:linear-gradient(135deg,rgba(79,70,229,0.35),rgba(6,182,212,0.2));filter:blur(24px);transform:scale(1.04)"></div>
+
+          <!-- Glass card wrapper -->
+          <div class="relative rounded-3xl overflow-hidden border border-white/10"
+               style="background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);height:420px">
+
+            <!-- Subtle gradient border (top) -->
+            <div class="absolute top-0 left-0 right-0 h-px"
+                 style="background:linear-gradient(90deg,transparent,rgba(99,102,241,0.7),rgba(6,182,212,0.6),transparent)"></div>
+
+            <!-- Photo -->
+            <img src="/profile.jpg"
+                 alt="Moncif LAARAJ"
+                 class="w-full h-full object-cover"
+                 style="object-position:center 8%;"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+
+            <!-- Fallback -->
+            <div class="hidden w-full h-full items-center justify-center text-6xl font-extrabold gradient-text font-display">ML</div>
+
+            <!-- Bottom gradient overlay -->
+            <div class="absolute inset-x-0 bottom-0 h-44"
+                 style="background:linear-gradient(to top, rgba(8,8,15,0.92) 0%, rgba(8,8,15,0.6) 50%, transparent 100%)"></div>
+
+            <!-- Name overlay inside card -->
+            <div class="absolute bottom-0 inset-x-0 p-6 z-10">
+              <p class="font-display font-extrabold text-xl text-white tracking-tight leading-tight">Moncif LAARAJ</p>
+              <p class="text-xs text-slate-400 mt-1 font-mono">Lead Frontend · Expert Angular 8→21</p>
+            </div>
+          </div>
+
+          <!-- Floating chips -->
+          <div class="chip-float-1 absolute -top-4 -left-6 flex items-center gap-2 px-3 py-2 rounded-xl z-20
+                      bg-dark-800/90 border border-primary-500/30 backdrop-blur-sm text-xs font-semibold text-primary-300">
+            <span class="w-2 h-2 rounded-full bg-primary-500"></span>
+            Angular 21
+          </div>
+
+          <div class="chip-float-2 absolute top-16 -right-8 flex items-center gap-2 px-3 py-2 rounded-xl z-20
+                      bg-dark-800/90 border border-accent-500/30 backdrop-blur-sm text-xs font-semibold text-accent-300">
+            <span class="w-2 h-2 rounded-full bg-accent-500"></span>
+            NgRx · Signals
+          </div>
+
+          <div class="chip-float-3 absolute bottom-24 -right-6 flex items-center gap-2 px-3 py-2 rounded-xl z-20
+                      bg-dark-800/90 border border-cyan-500/30 backdrop-blur-sm text-xs font-semibold text-cyan-300">
+            <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+            BPI France
+          </div>
+
+          <div class="chip-float-4 absolute -bottom-4 -left-4 flex items-center gap-2 px-3 py-2 rounded-xl z-20
+                      bg-dark-800/90 border border-amber-500/30 backdrop-blur-sm text-xs font-semibold text-amber-300">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            SNCF Voyageur
+          </div>
+
+          <!-- Angular badge -->
+          <div class="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-lg
+                      bg-dark-900/80 border border-white/10 backdrop-blur-sm text-xs font-bold text-white">
+            <span class="text-red-400 font-black">▲</span>
+            Angular Expert
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="reveal delay-7 flex justify-center mt-16">
+      <button (click)="scrollTo('about')"
+              class="flex flex-col items-center gap-1.5 text-slate-500 hover:text-primary-400 transition-colors">
+        <span class="text-xs font-mono tracking-widest">SCROLL</span>
+        <svg class="w-5 h-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>

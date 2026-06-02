@@ -1,0 +1,47 @@
+<section id="stack" class="relative bg-slate-50 dark:bg-dark-900 overflow-hidden">
+  <div class="orb orb-1" style="opacity:0.35"></div>
+
+  <div class="section-container relative z-10">
+
+    <!-- Header -->
+    <div class="reveal text-center mb-14">
+      <p class="section-label mb-3">{{ tr.t('stack.section_label') }}</p>
+      <h2 class="section-title text-slate-900 dark:text-white">{{ tr.t('stack.title') }}</h2>
+      <p class="text-slate-500 mt-3 max-w-xl mx-auto text-sm">{{ tr.t('stack.subtitle') }}</p>
+    </div>
+
+    <!-- Grille par domaine -->
+    <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+      @for (domain of portfolio.techDomains(); track domain.id; let i = $index) {
+        <div class="reveal glass-card p-6" [class]="'delay-' + (i + 1)">
+
+          <!-- En-tête domaine -->
+          <div class="flex items-center gap-3.5 mb-5">
+            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shrink-0"
+                 [ngClass]="getIconClass(domain.id)">
+              {{ domain.icon }}
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-slate-900 dark:text-white text-lg leading-tight">
+                {{ domain.title }}
+              </h3>
+              <p class="text-xs text-slate-400 font-mono mt-0.5">
+                {{ domain.skills.length }} {{ tr.isEN() ? 'technologies' : 'technologies' }} · {{ domain.subtitle }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2">
+            @for (skill of domain.skills; track skill.n) {
+              <span class="domain-tag" [class.domain-tag-star]="skill.s">
+                {{ skill.n }}
+              </span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

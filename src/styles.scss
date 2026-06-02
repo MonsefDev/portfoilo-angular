@@ -1,0 +1,509 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ─── */
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans transition-colors duration-300;
+    font-feature-settings: 'ss01', 'cv01';
+  }
+  body.dark, :root.dark body {
+    @apply bg-dark-900 text-slate-100;
+  }
+}
+
+/* ─── Components ─── */
+@layer components {
+  .section-container { @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-20; }
+  .section-label { @apply text-xs font-mono font-semibold uppercase tracking-[0.2em] text-primary-400; }
+  .section-title { @apply font-display text-3xl md:text-4xl font-bold mb-2 text-slate-900 dark:text-white; }
+
+  /* ── Buttons ── */
+  .btn-gradient {
+    @apply inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-semibold text-sm text-white
+           transition-all duration-300 hover:scale-105;
+    background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+    box-shadow: 0 0 24px rgba(79,70,229,0.4);
+    &:hover { box-shadow: 0 0 40px rgba(79,70,229,0.6), 0 0 60px rgba(6,182,212,0.2); }
+  }
+  .btn-ghost-v2 {
+    @apply inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-semibold text-sm
+           text-slate-300 border border-white/10 bg-white/5
+           hover:border-primary-500/50 hover:text-white hover:bg-white/10 transition-all duration-300;
+  }
+
+  /* ── Glass card ── */
+  .glass-card {
+    @apply rounded-2xl border transition-all duration-300;
+    background: rgba(255,255,255,0.85);
+    border-color: rgba(0,0,0,0.06);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+    &:hover { border-color: rgba(99,102,241,0.45); }
+  }
+  :where(.dark) .glass-card {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
+    backdrop-filter: blur(16px);
+    box-shadow: none;
+    &:hover { border-color: rgba(99,102,241,0.4); }
+  }
+
+  /* ── Tag ── */
+  .tag {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-primary-500/10 text-primary-400 border border-primary-500/20;
+  }
+
+  /* ── Gradient text ── */
+  .gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-hero {
+    background: linear-gradient(135deg, #818cf8 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-bg {
+    background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  }
+  .gradient-bg-full {
+    background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  }
+}
+
+/* ─── Orbs ─── */
+.orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+  will-change: transform;
+}
+.orb-1 {
+  width: 600px; height: 600px; top: -150px; right: -100px;
+  background: radial-gradient(circle, rgba(79,70,229,0.18) 0%, transparent 70%);
+  animation: orbDrift 12s ease-in-out infinite;
+}
+.orb-2 {
+  width: 500px; height: 500px; bottom: -200px; left: -80px;
+  background: radial-gradient(circle, rgba(6,182,212,0.14) 0%, transparent 70%);
+  animation: orbDrift2 15s ease-in-out infinite;
+}
+.orb-3 {
+  width: 350px; height: 350px; top: 40%; left: 30%;
+  background: radial-gradient(circle, rgba(99,102,241,0.09) 0%, transparent 65%);
+  animation: orbDrift 18s ease-in-out infinite reverse;
+}
+
+@keyframes orbDrift {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%       { transform: translate(40px,-30px) scale(1.06); }
+  66%       { transform: translate(-25px,15px) scale(0.94); }
+}
+@keyframes orbDrift2 {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  40%       { transform: translate(-50px,25px) scale(1.04); }
+  70%       { transform: translate(30px,-20px) scale(0.96); }
+}
+
+/* ─── Scroll Reveal ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  &.reveal-left  { transform: translateX(-40px); }
+  &.reveal-right { transform: translateX(40px); }
+  &.reveal-scale { transform: scale(0.9); }
+}
+.reveal.visible {
+  opacity: 1 !important;
+  transform: translate(0) scale(1) !important;
+}
+@for $i from 1 through 8 {
+  .delay-#{$i} { transition-delay: #{$i * 110}ms; }
+}
+
+/* ─── Escalier ascendant (career stairs) ─── */
+.stairs-track {
+  gap: 0;
+}
+.stair {
+  width: 240px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stairs-wrap.is-visible .stair {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hauteurs croissantes des marches — expert héroïsé */
+.stair-junior .stair-block { min-height: 150px; }
+.stair-lead   .stair-block { min-height: 205px; }
+.stair-senior .stair-block { min-height: 260px; }
+.stair-expert .stair-block { min-height: 325px; }
+
+/* Fond + bordure par niveau — light par défaut */
+.stair-block-junior {
+  background: linear-gradient(180deg, rgba(100,116,139,0.10) 0%, rgba(100,116,139,0.02) 100%);
+  border-color: rgba(100,116,139,0.35);
+}
+.stair-block-lead {
+  background: linear-gradient(180deg, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.03) 100%);
+  border-color: rgba(245,158,11,0.4);
+}
+.stair-block-senior {
+  background: linear-gradient(180deg, rgba(6,182,212,0.12) 0%, rgba(6,182,212,0.03) 100%);
+  border-color: rgba(6,182,212,0.4);
+}
+.stair-block-expert {
+  background: linear-gradient(180deg, rgba(99,102,241,0.13) 0%, rgba(99,102,241,0.03) 100%);
+  border-color: rgba(99,102,241,0.4);
+}
+/* Variantes dark */
+:where(.dark) .stair-block-junior { background: linear-gradient(180deg, rgba(100,116,139,0.14) 0%, rgba(255,255,255,0.02) 100%); border-color: rgba(100,116,139,0.3); }
+:where(.dark) .stair-block-lead   { background: linear-gradient(180deg, rgba(245,158,11,0.12) 0%, rgba(255,255,255,0.02) 100%); border-color: rgba(245,158,11,0.3); }
+:where(.dark) .stair-block-senior { background: linear-gradient(180deg, rgba(6,182,212,0.12) 0%, rgba(255,255,255,0.02) 100%); border-color: rgba(6,182,212,0.3); }
+:where(.dark) .stair-block-expert { background: linear-gradient(180deg, rgba(99,102,241,0.16) 0%, rgba(255,255,255,0.02) 100%); border-color: rgba(99,102,241,0.35); }
+
+/* Numéro - fond adapté light/dark */
+.stair-num { background: #fff; }
+:where(.dark) .stair-num { background: #0d1120; }
+
+/* Texte couleur par niveau (année) — lisible sur fond clair */
+.text-level-junior { color: #64748b; }
+.text-level-lead   { color: #d97706; }
+.text-level-senior { color: #0891b2; }
+.text-level-expert { color: #4f46e5; }
+:where(.dark) .text-level-junior { color: #94a3b8; }
+:where(.dark) .text-level-lead   { color: #fbbf24; }
+:where(.dark) .text-level-senior { color: #22d3ee; }
+:where(.dark) .text-level-expert { color: #818cf8; }
+
+/* Trait lumineux en bas de marche */
+.edge-junior { background: #64748b; box-shadow: 0 0 14px rgba(100,116,139,0.6); }
+.edge-lead   { background: #f59e0b; box-shadow: 0 0 14px rgba(245,158,11,0.6); }
+.edge-senior { background: #22d3ee; box-shadow: 0 0 14px rgba(6,182,212,0.6); }
+.edge-expert { background: #818cf8; box-shadow: 0 0 14px rgba(99,102,241,0.7); }
+
+/* Mobile cards reuse journey-node */
+.journey-node {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  &.visible { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Courbe de croissance (growth curve) ─── */
+.growth-path {
+  stroke-dasharray: 1100;
+  stroke-dashoffset: 1100;
+  filter: drop-shadow(0 0 6px rgba(99,102,241,0.3));
+}
+.stairs-wrap.is-visible .growth-path {
+  animation: drawGrowth 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+@keyframes drawGrowth {
+  to { stroke-dashoffset: 0; }
+}
+
+.growth-dot {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  stroke: #fff;
+  stroke-width: 3;
+}
+:where(.dark) .growth-dot { stroke: #0d1120; }
+
+/* Prolongement pointillé + flèche (apparaissent après le tracé) */
+.growth-path-ext, .growth-arrow {
+  opacity: 0;
+}
+.stairs-wrap.is-visible .growth-path-ext,
+.stairs-wrap.is-visible .growth-arrow {
+  animation: fadeInExt 0.5s ease 2.0s forwards;
+}
+@keyframes fadeInExt { to { opacity: 1; } }
+
+/* Halo pulse autour du node actuel */
+.growth-pulse {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.stairs-wrap.is-visible .growth-pulse {
+  animation: nodePulse 2.4s ease-in-out 1.4s infinite;
+}
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%      { opacity: 0;   transform: scale(2.1); }
+}
+.growth-dot-current { filter: drop-shadow(0 0 8px rgba(99,102,241,0.7)); }
+
+/* ─── Étape actuelle héroïsée ─── */
+.stair-block-current {
+  position: relative;
+}
+.stair-block-current::before {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.5px;
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events: none;
+}
+.stairs-wrap.is-visible .stair-expert .stair-block-current {
+  animation: heroGlow 3s ease-in-out 1.6s infinite;
+}
+@keyframes heroGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(99,102,241,0); }
+  50%      { box-shadow: 0 12px 40px rgba(99,102,241,0.25); }
+}
+
+/* Badge "Aujourd'hui" — point live qui pulse */
+.live-dot {
+  animation: liveDot 1.6s ease-in-out infinite;
+}
+@keyframes liveDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ═══ Stack — Grille par domaine ═══ */
+.domain-ico-frontend { @apply bg-primary-500/15 border border-primary-500/25; }
+.domain-ico-backend  { @apply bg-accent-500/15  border border-accent-500/25; }
+.domain-ico-devops   { @apply bg-emerald-500/15 border border-emerald-500/25; }
+.domain-ico-testing  { @apply bg-amber-500/15   border border-amber-500/25; }
+
+.domain-tag {
+  @apply inline-flex items-center text-sm font-medium px-3 py-1.5 rounded-lg
+         border transition-all duration-200 cursor-default;
+  @apply bg-slate-100 text-slate-600 border-slate-200
+         hover:border-primary-400/50 hover:text-slate-900;
+  @apply dark:bg-white/5 dark:text-slate-300 dark:border-white/10
+         dark:hover:border-primary-400/50 dark:hover:text-white;
+}
+/* Techs cœur de métier surlignées */
+.domain-tag-star {
+  @apply bg-primary-500/10 text-primary-600 border-primary-500/25 font-semibold
+         dark:bg-primary-500/10 dark:text-primary-300;
+}
+
+/* ─── Logo entreprise (pastille blanche, grayscale → couleur) ─── */
+.logo-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff;
+  border-radius: 9px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.logo-chip img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  filter: grayscale(1) opacity(0.85);
+  transition: filter 0.35s ease;
+}
+/* Couleur au survol de la carte parente OU de la pastille */
+.group:hover .logo-chip img,
+.logo-chip:hover img,
+.cm-card-active .logo-chip img,
+.stair-block-current .logo-chip img {
+  filter: grayscale(0) opacity(1);
+}
+.group:hover .logo-chip,
+.cm-card-active .logo-chip {
+  transform: scale(1.04);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+
+/* ─── Mobile : connecteur vertical + point actuel ─── */
+.mobile-stair-line {
+  background: linear-gradient(to bottom, #818cf8 0%, #22d3ee 40%, #f59e0b 75%, #64748b 100%);
+  border-radius: 9999px;
+}
+.mobile-dot-current {
+  box-shadow: 0 0 0 4px rgba(99,102,241,0.2);
+  animation: mobilePulse 2.2s ease-in-out infinite;
+}
+@keyframes mobilePulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(99,102,241,0.25); }
+  50%      { box-shadow: 0 0 0 7px rgba(99,102,241,0); }
+}
+
+/* ─── Respect des préférences de mouvement ─── */
+@media (prefers-reduced-motion: reduce) {
+  .growth-path, .growth-path-ext, .growth-arrow,
+  .growth-dot, .growth-pulse,
+  .live-dot, .mobile-dot-current,
+  .stair, .journey-node {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+.stairs-wrap.is-visible .growth-dot {
+  animation: dotPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes dotPop {
+  0%   { opacity: 0; transform: scale(0); }
+  60%  { opacity: 1; transform: scale(1.3); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ─── Level badges (lisibles light + dark) ─── */
+.level-junior  { @apply bg-slate-500/15  text-slate-600  dark:text-slate-300  border border-slate-400/30; }
+.level-lead    { @apply bg-amber-500/15  text-amber-600  dark:text-amber-300  border border-amber-400/30; }
+.level-senior  { @apply bg-accent-500/15 text-cyan-700   dark:text-accent-300 border border-accent-400/30; }
+.level-expert  { @apply bg-primary-500/15 text-primary-600 dark:text-primary-300 border border-primary-400/30; }
+
+.dot-junior  { @apply border-slate-400   text-slate-400; }
+.dot-lead    { @apply border-amber-400   text-amber-400; }
+.dot-senior  { @apply border-accent-400  text-accent-400; }
+.dot-expert  { @apply border-primary-400 text-primary-400; }
+
+/* ─── Skill tags ─── */
+.skill-expert {
+  @apply px-3 py-1.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-default
+         bg-primary-500/10 text-primary-300 border border-primary-500/20
+         hover:bg-primary-500/20 hover:scale-105;
+}
+.skill-advanced {
+  @apply px-3 py-1.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-default
+         bg-accent-500/10 text-accent-300 border border-accent-500/20
+         hover:bg-accent-500/20 hover:scale-105;
+}
+.skill-solid {
+  @apply px-3 py-1.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-default
+         bg-slate-500/10 text-slate-300 border border-slate-500/20
+         hover:bg-slate-500/20 hover:scale-105;
+}
+
+/* ─── Timeline ─── */
+.timeline-line {
+  @apply absolute left-6 top-0 bottom-0 w-px;
+  background: linear-gradient(to bottom, #4f46e5, #06b6d4 60%, transparent);
+}
+
+/* ─── Project cards ─── */
+.project-card {
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 48px rgba(79,70,229,0.2);
+    border-color: rgba(99,102,241,0.45) !important;
+  }
+}
+
+/* ─── Floating chip animation ─── */
+@keyframes chipFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-7px); }
+}
+.chip-float-1 { animation: chipFloat 4s ease-in-out infinite; }
+.chip-float-2 { animation: chipFloat 5s ease-in-out infinite 0.5s; }
+.chip-float-3 { animation: chipFloat 4.5s ease-in-out infinite 1s; }
+.chip-float-4 { animation: chipFloat 5.5s ease-in-out infinite 1.5s; }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #4f46e5, #06b6d4);
+  border-radius: 10px;
+}
+
+/* ─── Noise texture overlay ─── */
+.noise-overlay::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.35; z-index: 0;
+}
+
+/* ─── Cursor blink ─── */
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.cursor { display:inline-block; animation:blink 0.9s step-end infinite; }
+
+/* ═══ Experience — Timeline horizontale + explorateur ═══ */
+
+/* Ligne de progression */
+.cm-fill {
+  width: 0;
+  background: linear-gradient(90deg, #64748b 0%, #f59e0b 33%, #06b6d4 66%, #4f46e5 100%);
+  transition: width 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+.career-track.is-visible .cm-fill { width: 100%; }
+
+/* Nodes pop-in cascade */
+.cm-node {
+  opacity: 0;
+  transform: translateY(16px) scale(0.8);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+.cm-node.cm-node-visible { opacity: 1; transform: translateY(0) scale(1); }
+
+/* Logo node glow actif par niveau */
+.cm-logo-node.cm-dot-active { transform: scale(1.12); }
+.dot-junior.cm-dot-active  { box-shadow: 0 0 22px rgba(100,116,139,0.5); }
+.dot-lead.cm-dot-active    { box-shadow: 0 0 22px rgba(245,158,11,0.5); }
+.dot-senior.cm-dot-active  { box-shadow: 0 0 22px rgba(6,182,212,0.55); }
+.dot-expert.cm-dot-active  { box-shadow: 0 0 24px rgba(99,102,241,0.6); }
+
+/* Panneau détail : transition au changement d'entreprise */
+.exp-panel { animation: expPanelIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes expPanelIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Sidebar projet items */
+.exp-proj-item {
+  border-left-color: transparent;
+}
+.exp-proj-item:hover {
+  background: rgba(99,102,241,0.05);
+}
+:where(.dark) .exp-proj-item:hover {
+  background: rgba(255,255,255,0.04);
+}
+.exp-proj-active {
+  background: rgba(99,102,241,0.1) !important;
+  border-left-color: #6366f1 !important;
+}
+
+/* Détail projet : fondu au changement */
+.exp-detail-fade {
+  animation: expDetailFade 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes expDetailFade {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exp-modal, .exp-detail-fade { animation: none !important; }
+}
+
+/* ─── Gradient border ─── */
+.grad-border-wrap {
+  padding: 1.5px;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  border-radius: inherit;
+}

@@ -1,0 +1,273 @@
+<section id="projects" class="relative bg-slate-50 dark:bg-dark-900 overflow-hidden">
+  <div class="orb orb-1" style="opacity:0.3"></div>
+
+  <div class="section-container relative z-10">
+
+    <!-- Header -->
+    <div class="reveal text-center mb-10">
+      <p class="section-label mb-3">{{ tr.t('projects.section_label') }}</p>
+      <h2 class="section-title text-slate-900 dark:text-white">{{ tr.t('projects.title') }}</h2>
+      <p class="text-slate-500 mt-3 max-w-xl mx-auto text-sm">{{ tr.t('projects.subtitle') }}</p>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="reveal flex flex-wrap justify-center gap-2 mb-12">
+      @for (f of filters; track f.key) {
+        <button
+          (click)="setFilter(f.key)"
+          class="px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200"
+          [ngClass]="activeFilter() === f.key
+            ? 'bg-gradient-to-r from-primary-600 to-accent-500 text-white shadow-lg shadow-primary-500/25'
+            : 'bg-white dark:bg-dark-700 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10 hover:border-primary-400/50 hover:text-primary-400'"
+        >
+          {{ getFilterLabel(f) }}
+        </button>
+      }
+    </div>
+
+    <!-- Project grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (project of filteredProjects(); track project.id; let i = $index) {
+        <div
+          class="reveal glass-card project-card group cursor-pointer overflow-hidden flex flex-col"
+          [class]="'delay-' + (i + 1)"
+          (click)="openProject(project)"
+          role="button"
+          [attr.aria-label]="'Voir ' + project.name"
+        >
+          <!-- Color header -->
+          <div class="relative h-40 bg-gradient-to-br overflow-hidden flex-shrink-0"
+               [ngClass]="getTypeGradient(project.type)">
+
+            <!-- Grid pattern overlay -->
+            <div class="absolute inset-0 opacity-20"
+                 style="background-image:linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px);background-size:24px 24px"></div>
+
+            <!-- Type icon -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-5xl opacity-25 select-none">{{ getTypeIcon(project.type) }}</span>
+            </div>
+
+            <!-- Year badge -->
+            <div class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/30 backdrop-blur-sm
+                        text-white text-xs font-mono font-semibold">
+              {{ project.year }}
+            </div>
+
+            <!-- Hover CTA -->
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center
+                        opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <div class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 border border-white/30
+                          text-white text-sm font-semibold backdrop-blur-sm
+                          translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                Voir les détails
+              </div>
+            </div>
+          </div>
+
+          <!-- Card body -->
+          <div class="p-5 flex flex-col flex-1">
+            <!-- Type badge + company -->
+            <div class="flex items-center justify-between mb-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border"
+                    [ngClass]="getTypeBadgeClass(project.type)">
+                {{ getTypeIcon(project.type) }} {{ project.type }}
+              </span>
+              <span class="text-xs text-slate-400 font-mono truncate ml-2">{{ project.company }}</span>
+            </div>
+
+            <!-- Name -->
+            <h3 class="font-display font-bold text-slate-900 dark:text-white text-lg leading-tight mb-2
+                       group-hover:text-primary-500 transition-colors duration-200">
+              {{ project.name }}
+            </h3>
+
+            <!-- Description -->
+            <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4 flex-1">
+              {{ project.description }}
+            </p>
+
+            <!-- Metrics row -->
+            <div class="grid grid-cols-2 gap-1.5 mb-4">
+              @for (m of project.metrics; track m) {
+                <div class="flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span>
+                  {{ m }}
+                </div>
+              }
+            </div>
+
+            <!-- Stack -->
+            <div class="flex flex-wrap gap-1.5 pt-4 border-t border-slate-100 dark:border-white/5">
+              @for (tech of project.stack.slice(0, 5); track tech) {
+                <span class="tag text-xs">{{ tech }}</span>
+              }
+              @if (project.stack.length > 5) {
+                <span class="tag text-xs opacity-60">+{{ project.stack.length - 5 }}</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Project Detail Modal ── -->
+@if (selectedProject()) {
+  <div
+    class="fixed inset-0 z-[100] flex items-center justify-center p-4"
+    (click)="closeProject()"
+  >
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black/75 backdrop-blur-md"></div>
+
+    <!-- Modal -->
+    <div
+      class="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl z-10
+             bg-white dark:bg-dark-800 border border-slate-200 dark:border-white/10"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Header gradient -->
+      <div class="relative h-48 bg-gradient-to-br overflow-hidden rounded-t-3xl flex-shrink-0"
+           [ngClass]="getTypeGradient(selectedProject()!.type)">
+        <div class="absolute inset-0 opacity-20"
+             style="background-image:linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px);background-size:28px 28px"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span class="text-8xl opacity-20 select-none">{{ getTypeIcon(selectedProject()!.type) }}</span>
+        </div>
+
+        <!-- Modal header content -->
+        <div class="absolute bottom-0 inset-x-0 p-6" style="background:linear-gradient(to top, rgba(0,0,0,0.55), transparent)">
+          <div class="flex items-end justify-between gap-4">
+            <div>
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full border mb-2
+                           bg-white/20 text-white border-white/30">
+                {{ getTypeIcon(selectedProject()!.type) }} {{ selectedProject()!.type }}
+              </span>
+              <h2 class="font-display font-extrabold text-2xl text-white leading-tight">
+                {{ selectedProject()!.name }}
+              </h2>
+              <p class="text-white/70 text-sm mt-1 font-mono">
+                {{ selectedProject()!.company }} · {{ selectedProject()!.year }}
+              </p>
+            </div>
+            <!-- Close -->
+            <button (click)="closeProject()"
+                    class="w-9 h-9 rounded-xl bg-black/30 backdrop-blur-sm border border-white/20
+                           flex items-center justify-center text-white hover:bg-black/50 transition-colors flex-shrink-0">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal body -->
+      <div class="p-6 space-y-7">
+
+        <!-- Context -->
+        <div>
+          <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-primary-500 mb-3">
+            Contexte
+          </h3>
+          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+            {{ selectedProject()!.context }}
+          </p>
+        </div>
+
+        <!-- Metrics -->
+        <div>
+          <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-primary-500 mb-3">
+            Métriques clés
+          </h3>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            @for (m of selectedProject()!.metrics; track m) {
+              <div class="glass-card p-3 text-center">
+                <p class="text-sm font-bold font-display gradient-text">{{ m }}</p>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-7">
+          <!-- Responsibilities -->
+          <div>
+            <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-primary-500 mb-3">
+              Responsabilités
+            </h3>
+            <ul class="space-y-2">
+              @for (r of selectedProject()!.responsibilities; track r) {
+                <li class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <span class="text-primary-500 mt-0.5 shrink-0 font-bold">→</span>
+                  {{ r }}
+                </li>
+              }
+            </ul>
+          </div>
+
+          <!-- Results -->
+          <div>
+            <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-500 mb-3">
+              Résultats obtenus
+            </h3>
+            <ul class="space-y-2">
+              @for (r of selectedProject()!.results; track r) {
+                <li class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                  <span class="text-emerald-500 mt-0.5 shrink-0">✓</span>
+                  {{ r }}
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <!-- Stack -->
+        <div>
+          <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-primary-500 mb-3">
+            Stack technique
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            @for (tech of selectedProject()!.stack; track tech) {
+              <span class="tag">{{ tech }}</span>
+            }
+          </div>
+        </div>
+
+        <!-- Navigation prev/next -->
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-white/5">
+          <button (click)="navigateProject(-1)"
+                  class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
+                         text-slate-500 dark:text-slate-400 hover:text-primary-500 hover:bg-primary-500/5
+                         transition-all duration-200">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Précédent
+          </button>
+
+          <span class="text-xs text-slate-400 font-mono">
+            {{ selectedIndex() + 1 }} / {{ filteredProjects().length }}
+          </span>
+
+          <button (click)="navigateProject(1)"
+                  class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
+                         text-slate-500 dark:text-slate-400 hover:text-primary-500 hover:bg-primary-500/5
+                         transition-all duration-200">
+            Suivant
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+}

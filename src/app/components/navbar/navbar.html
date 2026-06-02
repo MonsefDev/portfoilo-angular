@@ -1,0 +1,103 @@
+<nav
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  [class.bg-dark-900]="scroll.scrolled()"
+  [class.border-b]="scroll.scrolled()"
+  [class.border-white/5]="scroll.scrolled()"
+  [class.shadow-lg]="scroll.scrolled()"
+  [class.shadow-black/40]="scroll.scrolled()"
+  [class.backdrop-blur-xl]="scroll.scrolled()"
+>
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <button (click)="scrollTo('hero')"
+              class="font-display font-black text-lg tracking-tight gradient-text hover:opacity-80 transition-opacity">
+        ML.
+      </button>
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-1">
+        @for (link of navLinks; track link) {
+          <button
+            (click)="scrollTo(link)"
+            class="relative px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 capitalize"
+            [class.text-white]="scroll.activeSection() === link"
+            [class.text-slate-400]="scroll.activeSection() !== link"
+            [class.hover:text-white]="true"
+          >
+            @if (scroll.activeSection() === link) {
+              <span class="absolute inset-0 rounded-xl bg-white/6 border border-white/8"></span>
+            }
+            <span class="relative">{{ tr.t('nav.' + link) }}</span>
+          </button>
+        }
+      </div>
+
+      <!-- Right controls -->
+      <div class="flex items-center gap-2">
+
+        <!-- Lang toggle -->
+        <button
+          (click)="tr.toggle()"
+          class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold border transition-all duration-200
+                 border-white/10 text-slate-400 hover:border-primary-500/50 hover:text-primary-400"
+        >
+          {{ tr.isEN() ? 'FR' : 'EN' }}
+        </button>
+
+        <!-- Theme toggle -->
+        <button
+          (click)="theme.toggle()"
+          class="p-2 rounded-xl border border-white/10 text-slate-400 hover:text-white
+                 hover:border-white/20 transition-all duration-200"
+          [attr.aria-label]="theme.isDark() ? 'Light mode' : 'Dark mode'"
+        >
+          @if (theme.isDark()) {
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M18.364 17.657l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+          } @else {
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+          }
+        </button>
+
+        <!-- Mobile menu -->
+        <button
+          (click)="toggleMenu()"
+          class="md:hidden p-2 rounded-xl border border-white/10 text-slate-400 hover:text-white transition-colors"
+        >
+          @if (menuOpen) {
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          } @else {
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          }
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    @if (menuOpen) {
+      <div class="md:hidden py-3 border-t border-white/5">
+        @for (link of navLinks; track link) {
+          <button
+            (click)="scrollTo(link)"
+            class="w-full text-left px-4 py-3 text-sm font-medium transition-colors capitalize rounded-xl"
+            [class.text-primary-400]="scroll.activeSection() === link"
+            [class.text-slate-400]="scroll.activeSection() !== link"
+          >
+            {{ tr.t('nav.' + link) }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+</nav>

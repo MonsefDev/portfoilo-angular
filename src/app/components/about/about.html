@@ -1,0 +1,211 @@
+<section id="about" class="relative bg-white dark:bg-dark-800 overflow-hidden">
+  <div class="orb orb-2" style="opacity:0.5"></div>
+
+  <div class="section-container relative z-10">
+
+    <!-- Header -->
+    <div class="reveal text-center mb-16">
+      <p class="section-label mb-3">{{ tr.t('about.section_label') }}</p>
+      <h2 class="section-title text-slate-900 dark:text-white">{{ tr.t('about.title') }}</h2>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-12 items-start mb-20">
+
+      <!-- Paragraphs -->
+      <div class="lg:col-span-3 space-y-5">
+        <p class="reveal reveal-left delay-1 text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+          {{ tr.t('about.p1') }}
+        </p>
+        <p class="reveal reveal-left delay-2 text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+          {{ tr.t('about.p2') }}
+        </p>
+        <p class="reveal reveal-left delay-3 text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+          {{ tr.t('about.p3') }}
+        </p>
+        <div class="reveal delay-4 flex flex-wrap gap-3 pt-2">
+          <a href="https://github.com/monsefdev" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
+                    border border-white/10 bg-white/4 text-slate-300
+                    hover:border-primary-500/50 hover:text-primary-300 transition-all duration-200">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="https://codepen.io/monsefdev" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
+                    border border-white/10 bg-white/4 text-slate-300
+                    hover:border-cyan-500/50 hover:text-cyan-300 transition-all duration-200">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.144 13.067v-2.134L16.55 12zm1.276 1.194l-4.507 3.006L12 19.054l-2.889-1.786-4.507-3.007-.034-.025v-4.481l.034-.024 4.507-3.007L12 4.947l2.913 1.786 4.507 3.007.034.024v4.481zm-10.608 1.188 2.76 1.715V10.81l-2.76 1.815zm-3.276-3.182 1.716 1.151V10.23l-1.716 1.037zm7.852-4.328L12 6.248l-1.389.69v10.124L12 17.752l1.389-.69V7.939zm1.516 5.36v2.148l2.761-1.715-1.045-.647zm3.276-3.182-1.716 1.037v2.316l1.716-1.151zM9.192 10.81v2.498l2.76-1.815z"/>
+            </svg>
+            CodePen
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="lg:col-span-2 grid grid-cols-2 gap-3">
+        @for (stat of stats; track stat.valueKey; let i = $index) {
+          <div class="reveal reveal-right glass-card p-5 text-center" [class]="'delay-' + (i + 1)">
+            <div class="text-2xl mb-2">{{ stat.icon }}</div>
+            <div class="text-3xl font-extrabold font-display gradient-text mb-1">{{ tr.t(stat.valueKey) }}</div>
+            <div class="text-xs text-slate-500 font-medium leading-tight">{{ tr.t(stat.labelKey) }}</div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Career progression -->
+    <div class="journey-section reveal">
+      <p class="section-label text-center mb-2">{{ tr.t('about.journey_title') }}</p>
+      <p class="text-center text-slate-500 text-sm mb-8">{{ tr.t('about.journey_subtitle') }}</p>
+
+      <!-- ═══ Repère d'axe : Junior → Lead → Senior → Expert ═══ -->
+      <div class="flex items-center justify-center gap-2 sm:gap-3 mb-12 flex-wrap">
+        @for (step of portfolio.careerSteps(); track step.levelKey; let i = $index; let last = $last) {
+          <span class="font-mono text-xs font-bold tracking-wide" [ngClass]="'text-level-' + step.levelKey">
+            {{ tr.t('about.level_' + step.levelKey) }}
+          </span>
+          @if (!last) {
+            <span class="text-slate-300 dark:text-white/20 text-xs">→</span>
+          }
+        }
+      </div>
+
+      <!-- ═══ ESCALIER + COURBE DE CROISSANCE (desktop) ═══ -->
+      <div class="stairs-wrap relative mx-auto hidden md:block"
+           style="width:960px;height:400px"
+           [class.is-visible]="journeyVisible()">
+
+        <!-- Courbe de croissance (flotte AU-DESSUS des marches) -->
+        <svg class="growth-svg absolute inset-0 pointer-events-none z-20"
+             viewBox="0 0 960 400" preserveAspectRatio="none" style="height:400px;width:960px">
+          <defs>
+            <linearGradient id="growthGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#64748b"/>
+              <stop offset="33%"  stop-color="#f59e0b"/>
+              <stop offset="66%"  stop-color="#22d3ee"/>
+              <stop offset="100%" stop-color="#818cf8"/>
+            </linearGradient>
+          </defs>
+          <!-- Courbe solide junior → expert -->
+          <path class="growth-path"
+                d="M 120 205 C 220 205, 260 152, 360 152 C 460 152, 500 100, 600 100 C 700 100, 740 42, 840 42"
+                fill="none" stroke="url(#growthGrad)" stroke-width="3" stroke-linecap="round"/>
+          <!-- Prolongement pointillé (ça continue) -->
+          <path class="growth-path-ext"
+                d="M 840 42 L 916 18"
+                fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 9"/>
+          <!-- Flèche montante -->
+          <path class="growth-arrow" d="M 916 18 l -11 0 m 11 0 l 0 11"
+                fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" transform="rotate(45 916 18)"/>
+          <!-- Nodes -->
+          <circle class="growth-dot" style="animation-delay:300ms"  cx="120" cy="205" r="7"  fill="#64748b"/>
+          <circle class="growth-dot" style="animation-delay:520ms"  cx="360" cy="152" r="7"  fill="#f59e0b"/>
+          <circle class="growth-dot" style="animation-delay:740ms"  cx="600" cy="100" r="7"  fill="#22d3ee"/>
+          <!-- Node actuel : halo pulse -->
+          <circle class="growth-pulse" cx="840" cy="42" r="9" fill="none" stroke="#818cf8" stroke-width="2"/>
+          <circle class="growth-dot growth-dot-current" style="animation-delay:960ms" cx="840" cy="42" r="9" fill="#818cf8"/>
+        </svg>
+
+        <!-- Marches -->
+        <div class="stairs-track flex items-end justify-center relative z-10 h-full">
+          @for (step of portfolio.careerSteps(); track step.year; let i = $index) {
+            <div class="stair flex flex-col items-center"
+                 [ngClass]="'stair-' + step.levelKey"
+                 [style.transition-delay]="getNodeDelay(i) + 'ms'">
+
+              <div class="stair-block relative w-full rounded-t-2xl border border-b-0
+                          flex flex-col items-center text-center gap-1.5 px-4 pt-7 pb-8"
+                   [class.stair-block-current]="isCurrent(step)"
+                   [ngClass]="'stair-block-' + step.levelKey">
+
+                <!-- Marqueur "Aujourd'hui" (étape actuelle) -->
+                @if (isCurrent(step)) {
+                  <span class="current-badge absolute -top-3 left-1/2 -translate-x-1/2
+                               inline-flex items-center gap-1.5 px-3 py-1 rounded-full
+                               text-[11px] font-bold whitespace-nowrap
+                               bg-primary-600 text-white shadow-lg shadow-primary-500/40">
+                    <span class="live-dot w-1.5 h-1.5 rounded-full bg-white"></span>
+                    {{ tr.t('experience.present') }}
+                  </span>
+                }
+
+                <!-- Année -->
+                <span class="font-mono text-sm font-bold mt-1"
+                      [ngClass]="'text-level-' + step.levelKey">{{ step.year }}</span>
+
+                <!-- Badge niveau -->
+                <span class="inline-block text-xs font-bold px-2.5 py-0.5 rounded-full"
+                      [ngClass]="getLevelClass(step)">
+                  {{ tr.t('about.level_' + step.levelKey) }}
+                </span>
+
+                <!-- Titre -->
+                <p class="font-display font-bold text-slate-900 dark:text-white leading-tight mt-1"
+                   [ngClass]="isCurrent(step) ? 'text-base' : 'text-sm'">{{ step.title }}</p>
+
+                <!-- Logo entreprise -->
+                <span class="logo-chip mt-1.5 h-8 px-2.5">
+                  <img [src]="'/logos/' + step.logo + '.png'" [alt]="step.company" loading="lazy" />
+                </span>
+                <p class="text-xs text-slate-500 mt-0.5">{{ step.company }}</p>
+
+                <!-- Trait lumineux en bas de la marche -->
+                <div class="stair-edge absolute bottom-0 left-0 right-0 h-[3px]"
+                     [ngClass]="'edge-' + step.levelKey"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- ═══ Mobile : escalier vertical ascendant ═══ -->
+      <div class="md:hidden relative pl-6">
+        <!-- Connecteur vertical dégradé -->
+        <div class="mobile-stair-line absolute left-[7px] top-3 bottom-3 w-0.5"></div>
+
+        @for (step of careerStepsDesc(); track step.year; let i = $index) {
+          <div class="journey-node relative mb-3"
+               [class.visible]="journeyVisible()"
+               [style.marginLeft.px]="i * 14"
+               [style.transitionDelay]="(i * 120) + 'ms'">
+
+            <!-- Point sur le connecteur -->
+            <span class="absolute -left-[26px] top-5 w-3.5 h-3.5 rounded-full border-2 z-10"
+                  [ngClass]="getDotClass(step)"
+                  [class.mobile-dot-current]="isCurrent(step)"
+                  style="background:#fff"></span>
+
+            <div class="flex items-center gap-3 p-4 rounded-2xl border"
+                 [class.stair-block-current]="isCurrent(step)"
+                 [ngClass]="'stair-block-' + step.levelKey">
+              <span class="logo-chip w-12 h-12 p-1.5">
+                <img [src]="'/logos/' + step.logo + '.png'" [alt]="step.company" loading="lazy" />
+              </span>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-0.5 flex-wrap">
+                  <span class="inline-block text-xs font-bold px-2 py-0.5 rounded-full"
+                        [ngClass]="getLevelClass(step)">
+                    {{ tr.t('about.level_' + step.levelKey) }}
+                  </span>
+                  <span class="font-mono text-xs font-bold" [ngClass]="'text-level-' + step.levelKey">{{ step.year }}</span>
+                  @if (isCurrent(step)) {
+                    <span class="inline-flex items-center gap-1 text-[10px] font-bold text-primary-500">
+                      <span class="live-dot w-1.5 h-1.5 rounded-full bg-primary-500"></span>
+                      {{ tr.t('experience.present') }}
+                    </span>
+                  }
+                </div>
+                <p class="font-display text-sm font-bold text-slate-900 dark:text-white leading-tight">{{ step.title }}</p>
+                <p class="text-xs text-slate-500">{{ step.company }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</section>
