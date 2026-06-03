@@ -2,11 +2,12 @@ import { Injectable, signal, effect } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  readonly isDark = signal<boolean>(true);
+  readonly isDark = signal<boolean>(false);
 
   constructor() {
     const saved = localStorage.getItem('theme');
-    this.isDark.set(saved !== 'light');
+    // Mode clair par défaut ; on respecte le choix sauvegardé s'il existe.
+    this.isDark.set(saved === 'dark');
     effect(() => {
       const dark = this.isDark();
       document.documentElement.classList.toggle('dark', dark);

@@ -49,6 +49,10 @@ COMPÉTENCES
 - Solide : Java, Node.js, PostgreSQL, MongoDB, Jest, Storybook, PHP/Laravel.
 - Méthodes : TDD, BDD, SOLID, Clean Code, Design Patterns, DDD, Agile SAFe, Scrum, Code Review, Pair Programming.
 
+AUTRES FRAMEWORKS FRONTEND / BACKEND JS (hors expertise principale) :
+Le cœur d'expertise de Moncif est Angular. En parallèle, il explore et pratique React, Vue.js, Node.js et Express.js à travers des PROJETS PERSONNELS (side-projects et veille technologique).
+Il a donc une bonne connaissance opérationnelle de l'écosystème JavaScript/TypeScript moderne et s'adapte rapidement à un autre framework frontend. Niveau : intermédiaire/opérationnel sur React et Vue.js, capable de monter une API Node.js/Express. Son expertise senior reste Angular.
+
 FORMATION : Master Génie Logiciel & Web Applications (FST Settat, 2020-2021), Licence Réseaux Informatiques (2015-2016), Brevet Technicien Développement (2013-2015).
 CERTIFICATIONS Microsoft : 70-461 (Querying SQL Server), 70-480 (Programming in HTML5 with JavaScript & CSS3).
 LANGUES : Français (langue de travail), Arabe (langue maternelle), Anglais (opérationnel).

@@ -92,6 +92,12 @@ export class ChatService {
         : "Bonjour ! Je suis l'assistant virtuel de Moncif 🤖. Pose-moi des questions sur son expérience Angular, ses missions (BPI France, SNCF, Capgemini), ses projets ou ses compétences.";
     }
 
+    if (has('react', 'vuejs', 'vue.js', 'vue js', ' vue', 'node', 'express', 'svelte', 'nuxt', 'next.js', 'framework')) {
+      return en
+        ? "Moncif's **core expertise is Angular** (8→21). He also explores **React, Vue.js, Node.js and Express.js** through **personal/side projects** (tech watch) — giving him a solid working knowledge of the modern JS/TS ecosystem and the ability to adapt quickly to another frontend framework. His senior-level expertise remains Angular."
+        : "Le **cœur d'expertise de Moncif est Angular** (8→21). Il explore aussi **React, Vue.js, Node.js et Express.js** à travers des **projets personnels** (veille techno) — ce qui lui donne une bonne connaissance opérationnelle de l'écosystème JS/TS moderne et la capacité de s'adapter vite à un autre framework front. Son expertise senior reste Angular.";
+    }
+
     if (has('bpi', 'banque', 'vault', 'ncbs', 'thought machine')) {
       return en
         ? "At **BPI France** (via ACENSI, since July 2025), Moncif is Senior Frontend Engineer & Technical Lead on the **NCBS Console** — monitoring accounts on the Vault Core platform (Thought Machine). Stack: Angular 21, NgRx/Signals, Nx, Playwright. Results: >80% test coverage, +40% performance, mentoring 2 developers."

@@ -39,7 +39,7 @@ Aujourd'hui Référent Technique Frontend chez BPI France (Core Banking), je dé
 🛠️ 𝗦𝘁𝗮𝗰𝗸 : Angular (8→21), TypeScript, RxJS, NgRx/Signals, Tailwind, Angular Material · Spring Boot, REST API, Docker, GitLab CI/CD, Nx · TDD, BDD, SOLID, Clean Code, Agile SAFe
 
 📍 Paris (hybride) · Disponible sous 3 mois · Ouvert CDI & Freelance
-🔗 Portfolio interactif : portfolio-moncif.pages.dev
+🔗 Portfolio interactif : laarajmoncif.fr
 
 Vous cherchez un Lead / Tech Lead Frontend pour structurer vos projets Angular et faire grandir votre équipe ? Échangeons 👉 laarajmoncif@gmail.com
 ```

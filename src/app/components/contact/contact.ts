@@ -1,8 +1,9 @@
-import { Component, inject, signal, ElementRef, viewChild, effect } from '@angular/core';
+import { Component, inject, signal, ElementRef, viewChild, effect, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslationService } from '../../services/translation.service';
 import { ChatService } from '../../services/chat.service';
+import { BookingService } from '../../services/booking.service';
 
 @Component({
   selector: 'app-contact',
@@ -10,12 +11,18 @@ import { ChatService } from '../../services/chat.service';
   imports: [CommonModule, FormsModule],
   templateUrl: './contact.html',
 })
-export class ContactComponent {
+export class ContactComponent implements OnInit {
   readonly tr = inject(TranslationService);
   readonly chat = inject(ChatService);
+  readonly booking = inject(BookingService);
 
   draft = '';
   readonly scrollBox = viewChild<ElementRef<HTMLDivElement>>('scrollBox');
+
+  ngOnInit(): void {
+    // Charge Cal.com une seule fois (si le lien est configuré)
+    this.booking.init();
+  }
 
   constructor() {
     // Auto-scroll INTERNE au chat (jamais la page) — uniquement après une interaction

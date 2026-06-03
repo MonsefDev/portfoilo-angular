@@ -13,13 +13,37 @@
 
       <!-- Colonne infos -->
       <div class="lg:col-span-2 space-y-4 reveal reveal-left">
-        <div class="glass-card p-5 flex items-center gap-4">
-          <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white flex-shrink-0">📅</div>
-          <div>
-            <p class="font-semibold text-slate-900 dark:text-white text-sm">{{ tr.t('contact.availability') }}</p>
-            <p class="text-xs text-emerald-500 font-mono mt-0.5">Open to opportunities</p>
+
+        <!-- ═══ Réservation Cal.com ═══ -->
+        @if (booking.enabled) {
+          <div class="glass-card p-5 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 rounded-full"
+                 style="background:radial-gradient(circle,rgba(99,102,241,0.18),transparent 70%)"></div>
+            <div class="flex items-center gap-3 mb-3 relative">
+              <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg flex-shrink-0">📅</div>
+              <div>
+                <p class="font-semibold text-slate-900 dark:text-white text-sm">
+                  {{ tr.isEN() ? 'Book a call' : 'Réserver un échange' }}
+                </p>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  {{ tr.isEN() ? 'Pick a time that suits you' : 'Choisis un créneau qui te convient' }}
+                </p>
+              </div>
+            </div>
+            <button
+              [attr.data-cal-namespace]="booking.namespace"
+              [attr.data-cal-link]="booking.link"
+              [attr.data-cal-config]="booking.config"
+              class="w-full btn-gradient justify-center py-3 text-sm relative">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              {{ tr.isEN() ? 'Book a slot' : 'Réserver un créneau' }}
+            </button>
           </div>
-        </div>
+        }
+
         <div class="glass-card p-5 flex items-center gap-4">
           <div class="w-11 h-11 rounded-xl bg-cyan-500/15 border border-cyan-500/20 flex items-center justify-center text-lg flex-shrink-0">📍</div>
           <div>

@@ -184,10 +184,12 @@ npx wrangler dev           # tester le worker en local
 ## 11bis. Déploiement (FAIT — Cloudflare Pages)
 
 Le site est **en ligne sur Cloudflare Pages** (gratuit, racine, CDN mondial) :
-- **URL de production : https://portfolio-moncif.pages.dev**
+- **URL de production : https://laarajmoncif.fr** (domaine perso OVH, SSL Cloudflare) + `www.laarajmoncif.fr`
+- URL technique Cloudflare (toujours active) : `https://portfolio-moncif.pages.dev`
 - Projet Cloudflare Pages : `portfolio-moncif` (branche prod : `main`)
+- DNS géré par Cloudflare (nameservers `doug/mira.ns.cloudflare.com`), email pro via OVH (MX `mx1/2/3.mail.ovh.net`).
 - Même compte que le worker chatbot → tout au même endroit.
-- ⚠️ Ne PAS utiliser les URLs à hash (`<hash>.portfolio-moncif.pages.dev`) = previews par déploiement. L'URL stable = `portfolio-moncif.pages.dev`.
+- ⚠️ Ne PAS utiliser les URLs à hash (`<hash>.portfolio-moncif.pages.dev`) = previews par déploiement.
 - (Ancien projet `portfolio` / `portfolio-h6e.pages.dev` peut être supprimé dans le dashboard.)
 
 **Re-déployer après une modification du portfolio :**
