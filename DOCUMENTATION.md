@@ -200,7 +200,24 @@ npx wrangler pages deploy dist/portfolio-angular/browser --project-name=portfoli
 ```
 
 Chaque déploiement crée aussi une URL de preview unique (ex. `42dbf4cb.portfolio-h6e.pages.dev`).
-Domaine perso possible plus tard via le dashboard Cloudflare Pages → Custom domains.
+
+---
+
+## 11ter. Domaine perso `laarajmoncif.fr` (FAIT — OVH + Cloudflare)
+
+**Domaine** : acheté chez **OVH** (3 ans, 1ʳᵉ offerte, exp. juin 2029, ~7,79€/an ensuite). Protection transfert ON, données perso anonymisées (AFNIC). Validation titulaire NIS2 confirmée par email.
+
+**DNS délégué à Cloudflare** :
+1. Cloudflare → Add a site → `laarajmoncif.fr` (plan Free) → import auto des enregistrements OVH (MX, SPF).
+2. OVH → **DNSSEC désactivé** + suppression du DS Record (Key tag 54610) — OBLIGATOIRE avant le changement de nameservers, sinon domaine injoignable.
+3. OVH → Serveurs DNS → « Utiliser mes propres DNS » → `doug.ns.cloudflare.com` + `mira.ns.cloudflare.com` (IP vide).
+4. Cloudflare Pages → projet `portfolio-moncif` → Custom domains → `laarajmoncif.fr` + `www.laarajmoncif.fr` (CNAME auto vers `portfolio-moncif.pages.dev`, SSL auto).
+
+**Email pro (FAIT — Zimbra OVH Starter, inclus gratuit)** :
+- Adresse : **`contact@laarajmoncif.fr`** (offre Starter, 15 Go). Webmail : [mail.ovh.net](https://mail.ovh.net).
+- DNS géré par Cloudflare → OVH ne peut PAS auto-configurer : vérification domaine via CNAME `ovh-zimbra-<id>` → `ovh.com` (DNS only), puis enregistrements à mettre à la main dans Cloudflare.
+- Déjà présents dans Cloudflare : **MX** `mx1/mx2/mx3.mail.ovh.net` (prio 1/5/100), **SPF** `v=spf1 include:mx.ovh.com -all`.
+- ⚠️ **TODO délivrabilité** : ajouter le **DKIM** (clé dans OVH → page diagnostic du domaine) + un **DMARC** (`_dmarc` TXT `v=DMARC1; p=none; rua=mailto:contact@laarajmoncif.fr`) dans Cloudflare → évite les spams.
 
 ---
 
