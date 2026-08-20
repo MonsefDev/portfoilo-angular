@@ -1,10 +1,12 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { TranslationService } from './translation.service';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
 }
+
+export type LeadTrigger = 'cv_download' | 'availability' | 'engaged';
 
 /**
  * ─── Configuration ───
@@ -20,6 +22,9 @@ export class ChatService {
 
   readonly messages = signal<ChatMessage[]>([]);
   readonly loading = signal(false);
+
+  readonly questionCount = computed(() => this.messages().filter(m => m.role === 'user').length);
+  private readonly sentTriggers = new Set<LeadTrigger>();
 
   get usesAI(): boolean {
     return WORKER_URL.trim().length > 0;
@@ -51,6 +56,7 @@ export class ChatService {
     if (!content || this.loading()) return;
 
     this.messages.update(m => [...m, { role: 'user', content }]);
+    this.checkLeadTriggers(content);
     this.loading.set(true);
 
     try {
@@ -63,6 +69,32 @@ export class ChatService {
     } finally {
       this.loading.set(false);
     }
+  }
+
+  // ─────────────────────────────────────────────
+  // Agent d'alerte lead — notification temps réel (aucune donnée persistée)
+  // ─────────────────────────────────────────────
+
+  /** Détecte un signal d'intérêt fort dans la question et notifie si besoin. */
+  private checkLeadTriggers(content: string): void {
+    const q = content.toLowerCase();
+    if (['disponib', 'contact', 'cdi', 'freelance', 'embauche', 'recrut'].some(k => q.includes(k))) {
+      this.notifyLead('availability');
+    }
+    if (this.questionCount() >= 3) {
+      this.notifyLead('engaged');
+    }
+  }
+
+  /** Notifie le Worker d'un lead chaud — une seule fois par déclencheur et par session, best-effort. */
+  notifyLead(trigger: LeadTrigger): void {
+    if (!this.usesAI || this.sentTriggers.has(trigger)) return;
+    this.sentTriggers.add(trigger);
+    fetch(`${WORKER_URL}/notify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ trigger, messages: this.messages() }),
+    }).catch(() => {});
   }
 
   /** Appel au Cloudflare Worker (vraie IA). */

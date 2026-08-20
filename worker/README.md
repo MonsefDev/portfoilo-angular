@@ -54,3 +54,21 @@ npx wrangler dev
 ## Modèle utilisé
 `@cf/meta/llama-3.3-70b-instruct-fp8-fast` — bon compromis qualité/vitesse.
 Tu peux en changer dans `src/index.ts` (constante `MODEL`). Liste : https://developers.cloudflare.com/workers-ai/models/
+
+## 🔔 Agent d'alerte lead (email via Resend) — optionnel
+
+Le worker peut envoyer une **notification par email en temps réel** quand un visiteur montre un signal fort d'intérêt (téléchargement du CV, question sur la disponibilité, ou 3+ questions au chatbot). Aucune donnée personnelle n'est stockée. **Sans les 2 secrets ci-dessous, la fonctionnalité est simplement inactive** (le reste marche identiquement).
+
+**Créer la clé API Resend :**
+1. Crée un compte gratuit sur **https://resend.com** — inscris-toi avec **l'adresse où tu veux recevoir les alertes** (ex. `laarajmoncif@gmail.com`).
+2. **API Keys** → **Create API Key** → copie la clé (`re_...`).
+3. Sans domaine vérifié, Resend n'autorise l'envoi **que vers l'email de ton compte** — ce qui suffit ici (tu te notifies toi-même, expéditeur `onboarding@resend.dev`).
+   *(Optionnel : vérifie `laarajmoncif.fr` dans Resend pour envoyer depuis `alerts@laarajmoncif.fr`.)*
+
+**Configurer les 2 secrets** (jamais en dur dans le code) :
+```bash
+cd worker
+npx wrangler secret put RESEND_API_KEY   # colle la clé re_...
+npx wrangler secret put ALERT_EMAIL      # l'email qui reçoit les alertes
+```
+Puis `npx wrangler deploy`. Tu recevras un email **« 🔔 Nouveau lead — laarajmoncif.fr »** avec un résumé en 1 ligne + l'heure de Paris.

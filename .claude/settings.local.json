@@ -23,7 +23,14 @@
       "Read(//Users/monciflaaraj/Desktop/**)",
       "Bash(git add *)",
       "Bash(git commit -q -m 'feat: favicon personnalisé ML \\(dégradé indigo/cyan\\) + apple-touch-icon *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(python3 -c \"import docx; print\\('python-docx dispo'\\)\")",
+      "Bash(pip3 install *)",
+      "Bash(python3 -c \"import docx; print\\('✅ python-docx OK'\\)\")",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=/Users/monciflaaraj/Desktop/CV-Moncif-LAARAJ-ATS.pdf file:///tmp/cv-ats.html)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(qlmanage -t -s 1400 -o /tmp /Users/monciflaaraj/Desktop/CV-Moncif-LAARAJ-ATS.pdf)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

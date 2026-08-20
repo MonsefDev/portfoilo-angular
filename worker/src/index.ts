@@ -7,12 +7,20 @@
 
 export interface Env {
   AI: Ai;
+  RESEND_API_KEY?: string;
+  ALERT_EMAIL?: string;
 }
 
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
 }
+
+const TRIGGER_LABEL: Record<string, string> = {
+  cv_download: '📄 A téléchargé le CV',
+  availability: '💬 Question sur la disponibilité / le contact',
+  engaged: '🔥 Visiteur engagé (3+ questions)',
+};
 
 const MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
 
@@ -80,6 +88,63 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+/**
+ * Agent d'alerte lead — notifie Moncif par email (Resend) quand un visiteur montre un signal
+ * fort d'intérêt. Best-effort : répond toujours 200, ne persiste aucune donnée personnelle.
+ */
+async function handleNotify(request: Request, env: Env): Promise<Response> {
+  try {
+    const body = (await request.json()) as { trigger?: string; messages?: ChatMessage[] };
+    const trigger = body.trigger ?? 'engaged';
+    const label = TRIGGER_LABEL[trigger] ?? '👀 Signal d\'intérêt';
+
+    if (env.RESEND_API_KEY && env.ALERT_EMAIL) {
+      const history = (body.messages ?? []).filter(m => m.role === 'user').slice(-6);
+      let line = label;
+
+      if (history.length) {
+        try {
+          const result = (await env.AI.run(MODEL, {
+            messages: [
+              { role: 'system', content: 'Résume en UNE phrase courte et factuelle (français) ce que ce visiteur a demandé. Pas de préambule.' },
+              { role: 'user', content: history.map(m => m.content).join('\n') },
+            ],
+            max_tokens: 80,
+            temperature: 0.3,
+          })) as { response?: string };
+          const summary = (result.response ?? '').trim();
+          if (summary) line = `${label} — ${summary}`;
+        } catch { /* garde le label seul */ }
+      }
+
+      const heure = new Date().toLocaleString('fr-FR', {
+        timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit',
+      });
+      const text = `Un visiteur a montré un signal d'intérêt sur ton portfolio.\n\n${line}\n\n🕐 ${heure} (Paris)\n🔗 https://laarajmoncif.fr`;
+
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: 'Lead Alert <onboarding@resend.dev>',
+            to: [env.ALERT_EMAIL],
+            subject: '🔔 Nouveau lead — laarajmoncif.fr',
+            text,
+          }),
+        });
+      } catch { /* best-effort : ne jamais bloquer l'UX */ }
+    }
+
+    return Response.json({ ok: true }, { headers: CORS });
+  } catch {
+    return Response.json({ ok: true }, { headers: CORS });
+  }
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method === 'OPTIONS') {
@@ -87,6 +152,10 @@ export default {
     }
     if (request.method !== 'POST') {
       return new Response('Method not allowed', { status: 405, headers: CORS });
+    }
+
+    if (new URL(request.url).pathname === '/notify') {
+      return handleNotify(request, env);
     }
 
     try {

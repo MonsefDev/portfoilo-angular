@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslationService } from '../../services/translation.service';
 import { ScrollService } from '../../services/scroll.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-hero',
@@ -11,6 +12,7 @@ import { ScrollService } from '../../services/scroll.service';
 })
 export class HeroComponent implements OnInit {
   readonly tr = inject(TranslationService);
+  readonly chat = inject(ChatService);
   private readonly scroll = inject(ScrollService);
 
   readonly displayedTitle = signal('');
