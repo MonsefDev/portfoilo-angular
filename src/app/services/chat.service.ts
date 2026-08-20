@@ -78,7 +78,12 @@ export class ChatService {
   /** Détecte un signal d'intérêt fort dans la question et notifie si besoin. */
   private checkLeadTriggers(content: string): void {
     const q = content.toLowerCase();
-    if (['disponib', 'contact', 'cdi', 'freelance', 'embauche', 'recrut'].some(k => q.includes(k))) {
+    const keywords = [
+      'disponib', 'dispo', 'available', 'contact', 'joindre', 'reach', 'coordonn',
+      'cdi', 'freelance', 'portage', 'embauche', 'recrut', 'recruit', 'hire',
+      'mission', 'entretien', 'interview', 'opportunit', 'collabor', 'poste',
+    ];
+    if (keywords.some(k => q.includes(k))) {
       this.notifyLead('availability');
     }
     if (this.questionCount() >= 3) {
